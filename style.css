@@ -1,3 +1,6 @@
+body {
+  background-color: #6569EA;
+}
 .container {
   display: flex;
 }
@@ -7,7 +10,7 @@
   height: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: yellow;
+  background-color: #B5B6DF;
 }
 
 .grid div {
@@ -26,7 +29,7 @@
   height: 80px;
   display: flex;
   flex-wrap: wrap;
-  background-color: yellow;
+  background-color: #37C30A;
 }
 
 .mini-grid div {
