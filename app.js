@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let nextRandom = 0
   let timerId
   let score = 0
+  let click = false;
+  let goodGame = false;
   const colors = [
     'orange',
     'red',
@@ -82,6 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log(theTetrominoes[0][0])
 
+  //Initialize the game
+
+
   //randomly select a Tetromino and its first rotation
   let random = Math.floor(Math.random()*theTetrominoes.length)
   let current = theTetrominoes[random][currentRotation]
@@ -104,14 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //assign function to keyCodes
   function control(e) {
-    if(e.keyCode === 37) {
-      moveLeft()
-    } else if (e.keyCode === 38){
-      rotate()
-    } else if (e.keyCode === 39) {
-      moveRight()
-    } else if (e.keyCode === 40) {
-      moveDown()
+    if (goodGame === false && timerId != null) {
+      if(e.keyCode === 37) {
+        moveLeft();
+      } else if (e.keyCode === 38){
+        rotate();
+      } else if (e.keyCode === 39) {
+        moveRight();
+      } else if (e.keyCode === 40) {
+        moveDown();
+      }
     }
   }
   document.addEventListener('keyup', control)
@@ -144,9 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function moveLeft() {
     undraw()
     const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
-
     if(!isAtLeftEdge) currentPosition -=1
-
     if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
       currentPosition +=1
     }
@@ -157,13 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function moveRight() {
     undraw()
     const isAtRightEdge = current.some(index => (currentPosition + index) % width === width -1)
-
     if(!isAtRightEdge) currentPosition +=1
-
     if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
       currentPosition -=1
     }
-
     draw()
   }
 
@@ -209,14 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //add functionality to the button
   startBtn.addEventListener('click', () => {
+    if (click === false) {
+      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+      displayShape()
+    }
+    click = true;
     if (timerId) {
       clearInterval(timerId)
       timerId = null
     } else {
       draw()
       timerId = setInterval(moveDown, 1000)
-      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-    displayShape()
     }
   })
 
@@ -245,6 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
       scoreDisplay.innnerHTML = 'end'
       clearInterval(timerId)
+      goodGame = true;
+      click = false;
     }
   }
 
