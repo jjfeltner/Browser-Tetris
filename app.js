@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log(theTetrominoes[0][0])
 
+  //Initialize the game
+
+
   //randomly select a Tetromino and its first rotation
   let random = Math.floor(Math.random()*theTetrominoes.length)
   let current = theTetrominoes[random][currentRotation]
@@ -106,15 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //assign function to keyCodes
   function control(e) {
-    if (goodGame === false) {
+    if (goodGame === false && timerId != null) {
       if(e.keyCode === 37) {
-        moveLeft()
+        moveLeft();
       } else if (e.keyCode === 38){
-        rotate()
+        rotate();
       } else if (e.keyCode === 39) {
-        moveRight()
+        moveRight();
       } else if (e.keyCode === 40) {
-        moveDown()
+        moveDown();
       }
     }
   }
@@ -208,14 +211,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //add functionality to the button
   startBtn.addEventListener('click', () => {
+    if (click === false) {
+      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
+      displayShape()
+    }
+    click = true;
     if (timerId) {
       clearInterval(timerId)
       timerId = null
     } else {
       draw()
       timerId = setInterval(moveDown, 1000)
-      nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-    displayShape()
     }
   })
 
@@ -245,6 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scoreDisplay.innnerHTML = 'end'
       clearInterval(timerId)
       goodGame = true;
+      click = false;
     }
   }
 

@@ -1,6 +1,12 @@
 body {
   background-color: #6569EA;
 }
+
+.hud div {
+  width: 330px;
+  display:flex;
+  background-color: purple;
+}
 .container {
   display: flex;
 }
@@ -16,7 +22,6 @@ body {
 .grid div {
   height: 20px;
   width: 20px;
-
 }
 
 .tetromino {
